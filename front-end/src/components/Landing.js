@@ -55,14 +55,13 @@ export default function Landing() {
                     }
                 }));
 
-                const blobs = await Promise.all(fetchPromises);
-                const imageUrls = blobs.map(blob => URL.createObjectURL(blob));
-                const imagesWithIds = pictureIds.map((id, index) => ({
-                    id,
-                    url: imageUrls[index]
-                }));  
+            const blobs = await Promise.all(fetchPromises);
+            const imageUrls = blobs.map(blob => URL.createObjectURL(blob));
+            const imagesWithIds = pictureIds.map((id, index) => ({
+                id,
+                url: imageUrls[index]
+            }));
             setImageSrcs(imagesWithIds);
-
         };
 
         fetchImages();
@@ -77,13 +76,12 @@ export default function Landing() {
         const filtered = Data.filter(member =>
             member.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredImg([]);
-        filtered.map((member, index) => {
-            setFilteredImg(prev => [...prev, member.id]);
-        });
+        const filteredimage = imageSrcs.filter(item => filtered.map(item => item.id).includes(item.id));
+        setFilteredImg(filteredimage);
+
         setFilteredData(filtered);
         setCurrentPage(1);
-    }, [searchTerm, Data]);
+    }, [searchTerm, Data, imageSrcs]);
 
 
     const handleDelete = async (event, id) => {
@@ -108,8 +106,8 @@ export default function Landing() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-    
-    const currentImg = imageSrcs.filter(item => filteredImg.includes(item.id));
+
+    const currentImg = filteredImg.slice(indexOfFirstItem, indexOfLastItem);
 
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
