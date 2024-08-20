@@ -3,7 +3,7 @@ USE BUANA_TEST;
 CREATE TABLE users
 (
     email           VARCHAR(100) NOT NULL,
-    password        VARCHAR(100) NOT NULL,
+    password        VARCHAR(100) ,
     name            VARCHAR(100) NOT NULL,
     token           VARCHAR(100) UNIQUE,
     token_expired_at BIGINT,

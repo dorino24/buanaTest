@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ridhopriambodo.buana.entity.User;
+import ridhopriambodo.buana.model.GoogleUserRequest;
 import ridhopriambodo.buana.model.RegisterUserRequest;
 import ridhopriambodo.buana.model.Response;
 import ridhopriambodo.buana.model.UserResponse;
@@ -45,6 +46,8 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+
 
     public UserResponse getUser(){
         User user = authService.getUserDetail();

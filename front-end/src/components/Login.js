@@ -26,8 +26,6 @@ export default function Login() {
         setResponse(data);
     }
 
-
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await fetch('http://localhost:8080/api/login', {
@@ -47,12 +45,9 @@ export default function Login() {
         if (response.status === 200) {
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('expiredAt', data.data.expiredAt);
-
             window.location.href = "/dashboard";
         }
     };
-
-   
 
     return (
         <div className="welcome">
@@ -85,7 +80,9 @@ export default function Login() {
                     <a href="/register">Create an account</a>
                 </p>
                 <hr className="garis" ></hr>
-                <img className="google" src="\assets\google2.png" width="50px" alt="google"  />
+                <a href="http://localhost:8080/oauth2/authorization/google">
+                    <img className="google" src="\assets\google2.png" width="50px" alt="google" />
+                </a>
             </div>
         </div>
     );

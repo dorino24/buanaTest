@@ -3,6 +3,7 @@ import React from "react";
 export default function Nav() {
 
     const [user,setUser] = React.useState();
+
     React.useEffect(() => {
         const fetchData = async () => {
 

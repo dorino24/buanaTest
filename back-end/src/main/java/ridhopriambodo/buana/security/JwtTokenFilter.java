@@ -32,6 +32,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        if ("/loginGoogle".equals(request.getRequestURI())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        if ("/error".equals(request.getRequestURI())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         String apiToken = request.getHeader("X-TOKEN-API");
         if (apiToken != null && tokenService.validateToken(apiToken)) {
 

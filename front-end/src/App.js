@@ -9,7 +9,7 @@ import Edit from "./components/Edit";
 import Detail from "./components/Detail";
 import PrivateRoute from "./components/PrivateRoute";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import GoogleLoginCallback from "./components/GoogleLoginCallback";
 
 export default function App() {
 
@@ -19,6 +19,7 @@ export default function App() {
             <Routes>
                 <Route path="/" element= {<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/callback" element={<GoogleLoginCallback />} />
                 <Route path="/dashboard" element={<PrivateRoute>
                     <Landing />
                 </PrivateRoute>} />
