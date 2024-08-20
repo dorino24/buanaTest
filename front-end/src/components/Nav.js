@@ -17,9 +17,8 @@ export default function Nav() {
             });
             const result = await response.json();
             setUser(await result.data);
-            console.log(result)
+
         };
-        console.log(user)
         fetchData();
 
     }, []);

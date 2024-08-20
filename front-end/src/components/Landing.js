@@ -6,6 +6,7 @@ export default function Landing() {
     const [Data, setData] = React.useState([]);
     const [imageSrcs, setImageSrcs] = React.useState([]);
     const [searchTerm, setSearchTerm] = React.useState("");
+    const [filteredImg, setFilteredImg] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const itemsPerPage = 8;
@@ -54,11 +55,13 @@ export default function Landing() {
                     }
                 }));
 
-
-            const blobs = await Promise.all(fetchPromises);
-            const imageUrls = blobs.map(blob => URL.createObjectURL(blob));
-            // const imageUrls =URL.createObjectURL(blobs);
-            setImageSrcs(imageUrls);
+                const blobs = await Promise.all(fetchPromises);
+                const imageUrls = blobs.map(blob => URL.createObjectURL(blob));
+                const imagesWithIds = pictureIds.map((id, index) => ({
+                    id,
+                    url: imageUrls[index]
+                }));  
+            setImageSrcs(imagesWithIds);
 
         };
 
@@ -74,6 +77,10 @@ export default function Landing() {
         const filtered = Data.filter(member =>
             member.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
+        setFilteredImg([]);
+        filtered.map((member, index) => {
+            setFilteredImg(prev => [...prev, member.id]);
+        });
         setFilteredData(filtered);
         setCurrentPage(1);
     }, [searchTerm, Data]);
@@ -91,7 +98,6 @@ export default function Landing() {
             },
         });
         const data = await response.json();
-        console.log(data);
         if (response.status === 200) {
             window.location.href = "/dashboard";
         }
@@ -102,6 +108,8 @@ export default function Landing() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    
+    const currentImg = imageSrcs.filter(item => filteredImg.includes(item.id));
 
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -122,10 +130,10 @@ export default function Landing() {
                     />
                 </div>
                 <div className="memberList">
-                    {currentData.length > 0 ?
+                    {currentData.length > 0 && currentImg.length > 0 ?
                         currentData.map((member, index) => (
                             <div key={index} className="memberItem">
-                                <img src={imageSrcs[index]} alt={member.name} width="100%" className="picture" />
+                                <img src={currentImg[index].url} alt={member.name} width="100%" className="picture" />
                                 <div className="memberItemContent">
                                     <h3>{member.name}</h3>
                                 </div>
